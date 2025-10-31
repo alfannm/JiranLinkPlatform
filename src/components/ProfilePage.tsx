@@ -5,6 +5,8 @@ import { Button } from './ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { ItemCard } from './ItemCard';
 import { Badge } from './ui/badge';
+import React from "react";
+import { huaweiLogin, googleLogin } from "../auth";
 
 interface ProfilePageProps {
   user: User;
