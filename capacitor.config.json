@@ -1,5 +1,6 @@
 {
   "appId": "com.aidea.jiranlink",
   "appName": "JiranLink",
-  "webDir": "dist"
+  "webDir": "build",
+  "bundledWebRuntime": false
 }
