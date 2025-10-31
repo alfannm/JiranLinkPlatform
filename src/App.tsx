@@ -12,6 +12,7 @@ import { ItemDetailPage } from "./components/ItemDetailPage";
 import { PostItemPage } from "./components/PostItemPage";
 import { ProfilePage } from "./components/ProfilePage";
 import { MessagesPage } from "./components/MessagesPage";
+import { LoginPage } from "./components/LoginPage";
 import {
   mockItems,
   mockMessages,
@@ -19,6 +20,7 @@ import {
 } from "./data/mockData";
 import { Item } from "./types";
 import { Toaster } from "./components/ui/sonner";
+import { toast } from "sonner";
 
 type Page =
   | "home"
@@ -29,6 +31,8 @@ type Page =
   | "item-detail";
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loginProvider, setLoginProvider] = useState<'huawei' | 'google' | null>(null);
   const [currentPage, setCurrentPage] = useState<Page>("home");
   const [selectedItem, setSelectedItem] = useState<Item | null>(
     null,
@@ -56,6 +60,29 @@ export default function App() {
   const handleMessageOwner = () => {
     setCurrentPage("messages");
   };
+
+  const handleLogin = (provider: 'huawei' | 'google') => {
+    setLoginProvider(provider);
+    setIsAuthenticated(true);
+    toast.success(`Successfully signed in with ${provider === 'huawei' ? 'Huawei ID' : 'Google'}`);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setLoginProvider(null);
+    setCurrentPage("home");
+    toast.success('Successfully logged out');
+  };
+
+  // Show login page if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <>
+        <LoginPage onLogin={handleLogin} />
+        <Toaster />
+      </>
+    );
+  }
 
   const renderPage = () => {
     switch (currentPage) {
@@ -91,6 +118,7 @@ export default function App() {
             user={currentUser}
             userItems={userItems}
             onItemClick={handleItemClick}
+            onLogout={handleLogout}
           />
         );
       case "item-detail":

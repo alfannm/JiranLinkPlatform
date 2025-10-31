@@ -5,16 +5,15 @@ import { Button } from './ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { ItemCard } from './ItemCard';
 import { Badge } from './ui/badge';
-import React from "react";
-import { huaweiLogin, googleLogin } from "../auth";
 
 interface ProfilePageProps {
   user: User;
   userItems: Item[];
   onItemClick: (item: Item) => void;
+  onLogout: () => void;
 }
 
-export function ProfilePage({ user, userItems, onItemClick }: ProfilePageProps) {
+export function ProfilePage({ user, userItems, onItemClick, onLogout }: ProfilePageProps) {
   const activeItems = userItems.filter(item => item.available);
   const inactiveItems = userItems.filter(item => !item.available);
 
@@ -28,10 +27,7 @@ export function ProfilePage({ user, userItems, onItemClick }: ProfilePageProps) 
               variant="ghost" 
               size="icon" 
               className="text-white hover:bg-white/20"
-              onClick={() => {
-                // TODO: Implement logout functionality
-                console.log('Logout clicked');
-              }}
+              onClick={onLogout}
               title="Logout"
             >
               <LogOut className="w-5 h-5" />
