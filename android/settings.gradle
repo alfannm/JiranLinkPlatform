@@ -1,5 +1,36 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://developer.huawei.com/repo/' } // Huawei plugin repo
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://developer.huawei.com/repo/' } // Huawei library repo
+        flatDir {
+            dirs "${rootDir}/app/libs", "${rootDir}/capacitor-cordova-android-plugins/src/main/libs"
+        }
+    }
+}
+
+rootProject.name = "JiranLinkPlatform"
+
+// ✅ Include the main Android app
 include ':app'
+
+// ✅ Include Capacitor Android (local module)
+include ':capacitor-android'
+project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
+
+// ✅ Include Cordova Android plugins (if used)
 include ':capacitor-cordova-android-plugins'
 project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
 
+// ✅ Apply Capacitor’s default Gradle settings
 apply from: 'capacitor.settings.gradle'

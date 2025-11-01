@@ -1,39 +1,68 @@
 // src/auth.ts
-import { registerPlugin } from '@capacitor/core';
 
-// Register your custom native plugin
-const HuaweiAuth = registerPlugin<any>('HuaweiAuth');
+// --------------------
+// 🔹 Firebase Integration (Google Login + Firestore + Storage)
+// --------------------
 
-export const huaweiLogin = async () => {
-  try {
-    await HuaweiAuth.signIn();
-    alert('Huawei login started — check your Huawei device.');
-  } catch (err) {
-    console.error('Huawei login failed:', err);
-    alert('Huawei login failed — ensure HMS Core is installed.');
-  }
-};
+import { initializeApp } from "firebase/app";
+import { 
+  getAuth, 
+  GoogleAuthProvider, 
+  signInWithPopup, 
+  signOut 
+} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
-
-// (Optional) Google Sign-In (Firebase web fallback)
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-
+// ✅ Your Firebase config (already verified)
 const firebaseConfig = {
-  apiKey: 'YOUR_FIREBASE_KEY',
-  authDomain: 'jiranlink.firebaseapp.com',
+  apiKey: "AIzaSyDLpekosNGx7j2WOSgKKoYrXCxSCtTCljM",
+  authDomain: "jiranlink-e28a7.firebaseapp.com",
+  projectId: "jiranlink-e28a7",
+  storageBucket: "jiranlink-e28a7.firebasestorage.app",
+  messagingSenderId: "501458591791",
+  appId: "1:501458591791:web:520b2ca12f79b892d3a6da",
+  measurementId: "G-EZ25F7EJEV",
 };
 
+// 🔧 Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 
-export const googleLogin = async () => {
+// --------------------
+// 🔹 Google Sign-In
+// --------------------
+export async function googleLogin() {
   try {
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
-    alert(`Logged in as ${result.user.displayName}`);
-  } catch (err) {
-    console.error('Google login failed:', err);
-    alert('Google login failed');
+    const user = result.user;
+
+    console.log("✅ Google Sign-In success:", user);
+
+    return {
+      uid: user.uid,
+      name: user.displayName,
+      email: user.email,
+      avatar: user.photoURL,
+      token: await user.getIdToken(),
+    };
+  } catch (err: any) {
+    console.error("❌ Google login failed:", err);
+    throw new Error("Google login failed — check Firebase Auth setup and internet connection.");
   }
-};
+}
+
+// --------------------
+// 🔹 Logout
+// --------------------
+export async function googleLogout() {
+  try {
+    await signOut(auth);
+    console.log("✅ User signed out successfully");
+  } catch (err) {
+    console.error("❌ Logout failed:", err);
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "501458591791",
+    "project_id": "jiranlink-e28a7",
+    "storage_bucket": "jiranlink-e28a7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501458591791:android:d2c314c40b0190add3a6da",
+        "android_client_info": {
+          "package_name": "com.aidea.jiranlink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501458591791-6eal60c49t0m0td2oanvsf1b39t24t5r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpR5g65cOVbHUoA2FoFPyin042jAop7-E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501458591791-6eal60c49t0m0td2oanvsf1b39t24t5r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
